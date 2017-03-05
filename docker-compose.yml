@@ -45,5 +45,15 @@ services:
         networks:
             - gateway
 
+    keycloak:
+        image: jboss/keycloak
+        ports:
+            - 38080:8080
+        networks:
+            - gateway
+        environment:
+            - KEYCLOAK_USER=admin
+            - KEYCLOAK_PASSWORD=admin123
+
 networks:
     gateway:
