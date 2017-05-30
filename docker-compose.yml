@@ -55,5 +55,30 @@ services:
             - KEYCLOAK_USER=admin
             - KEYCLOAK_PASSWORD=admin123
 
+    haproxy:
+        image: haproxy:alpine
+        ports:
+            - 38081:80
+        volumes:
+            - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+        networks:
+            - gateway
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - 38082:80
+        volumes:
+            - ./nginx:/usr/share/nginx/html:ro
+        networks:
+            - gateway
+
+    grpc:
+        image: tyk-auth-golang-grpc-plugin:1.0
+        ports:
+            - 35000:5000
+        networks:
+            - gateway
+
 networks:
     gateway:
