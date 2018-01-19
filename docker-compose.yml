@@ -10,6 +10,7 @@ services:
             gateway:
                 aliases:
                     - redis
+
     tyk_mongo:
         image: mongo:latest
         command: ["mongod", "--smallfiles"]
@@ -20,6 +21,7 @@ services:
             gateway:
                 aliases:
                     - mongo
+
     tyk_dashboard:
         image: tykio/tyk-dashboard:latest
         ports:
@@ -29,24 +31,30 @@ services:
             - ./tyk_analytics.conf:/opt/tyk-dashboard/tyk_analytics.conf
         networks:
             - gateway
+
     tyk_pump:
         image: tykio/tyk-pump-docker-pub:latest
         networks:
             - gateway
         volumes:
             - ./pump.conf:/opt/tyk-pump/pump.conf
+
     tyk_gateway:
         image: tykio/tyk-gateway:latest
+        hostname: tyk-gateway
         ports:
             - "80:8080"
             - "8080:8080"
         volumes:
+            - ./middleware:/opt/tyk-gateway-middleware
             - ./tyk.conf:/opt/tyk-gateway/tyk.conf
+            - ./certs:/opt/tyk-gateway/certs
         networks:
             - gateway
 
     keycloak:
-        image: jboss/keycloak
+        image: jboss/keycloak:latest
+        hostname: keycloak
         ports:
             - 38080:8080
         networks:
@@ -79,6 +87,24 @@ services:
             - 35000:5000
         networks:
             - gateway
+
+    simple-api:
+        image: nextmetaphor/simple-golang-api:latest
+        hostname: simple-golang-api
+        ports:
+            - 28080:8080
+        networks:
+            - gateway
+
+    gatling:
+        image: nextmetaphor/alpine-gatling
+        entrypoint: ["tail", "-f", "/dev/null"]
+        networks:
+            - gateway
+        volumes:
+            - ./gatling/conf:/opt/gatling-charts-highlights-bundle/conf
+            - ./gatling/user-files:/opt/gatling-charts-highlights-bundle/user-files
+            - ./gatling/results:/opt/gatling-charts-highlights-bundle/results
 
 networks:
     gateway:

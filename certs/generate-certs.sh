@@ -5,3 +5,6 @@ openssl req -x509 -newkey rsa:2048 -keyout client-key.pem -out client-cert.pem -
 # openssl pkcs12 -export -out client-cert.pfx -inkey client-key.pem -in client-cert.pem
 # openssl pkcs12 -export -out gateway-cert.pfx -inkey gateway-key.pem -in gateway-cert.pem
 # curl --tlsv1.2 https://localhost:8080/simple-api/ --cacert gateway-cert.pfx -k --cert client-cert.pfx:password
+
+# brew install sslscan
+# sslscan https://localhost:8080

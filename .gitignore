@@ -1,2 +1,4 @@
 tyk_analytics.conf
 .idea
+*.pem
+*.pfx
