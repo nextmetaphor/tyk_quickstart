@@ -102,9 +102,9 @@ services:
         networks:
             - gateway
         volumes:
-            - ./gatling/conf:/opt/gatling-charts-highlights-bundle/conf
-            - ./gatling/user-files:/opt/gatling-charts-highlights-bundle/user-files
-            - ./gatling/results:/opt/gatling-charts-highlights-bundle/results
+            - ./gatling/conf:/opt/gatling-charts-highcharts-bundle-2.2.5/conf
+            - ./gatling/user-files:/opt/gatling-charts-highcharts-bundle-2.2.5/user-files
+            - ./gatling/results:/opt/gatling-charts-highcharts-bundle-2.2.5/results
 
 networks:
     gateway:

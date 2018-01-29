@@ -1,0 +1,32 @@
+package sampleapi
+
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import scala.concurrent.duration._
+
+class SampleAPISimulation extends Simulation {
+
+  val httpConfig = http
+    .disableClientSharing
+    .baseURL("https://tyk_gateway:8080")
+
+  val scn = scenario("SampleAPIScenario")
+    .forever() {
+      exec(http("simple-api")
+        .get("/simple-api/")
+        .header("Authorization", "TODO")
+        .header("x-api-version", "1.0"))
+        .pause(1 millisecond, 100 millisecond)
+    }
+
+  setUp(
+    scn.inject(
+      rampUsers(5) over (10 second),
+      nothingFor(10 second),
+      rampUsers(19) over (10 second),
+      nothingFor(10 second),
+      rampUsers(15) over (10 second),
+      nothingFor(10 second)
+    ).protocols(httpConfig)
+  ).maxDuration(1 minutes)
+}
