@@ -22,7 +22,7 @@ docker exec -it tykquickstart_tyk_gateway_1 bash
   export USERNAME=tyk-user
   export PASSWORD=password12
   
-  curl -X POST http://keycloak:8080/auth/realms/Tyk/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=$USERNAME" -d "password=$PASSWORD" -d "grant_type=password" -d "client_id=$CLIENT_ID"
+  curl -X POST http://keycloak:8080/auth/realms/tyk/protocol/openid-connect/token -H "Content-Type: application/x-www-form-urlencoded" -d "username=$USERNAME" -d "password=$PASSWORD" -d "grant_type=password" -d "client_id=$CLIENT_ID"
   
 # use https://jwt.io/ to view token attributes
 
